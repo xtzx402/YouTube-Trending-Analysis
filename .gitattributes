@@ -1,0 +1,2 @@
+src/* linguist-source
+*.py linguist-language=Python

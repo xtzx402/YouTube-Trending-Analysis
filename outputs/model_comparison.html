@@ -1,0 +1,87 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Model Comparison (3 Models)</title>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 40px;
+          background: #fdfdfd;
+        }
+        h1 {
+          text-align: center;
+          color: #333;
+        }
+        .chart-container {
+          width: 80%;
+          margin: 40px auto;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Model Comparison (BaseCase vs With Emotion vs XGBoost+Emotion)</h1>
+
+      <div class="chart-container">
+        <h2 style="text-align:center;">Bar Chart Comparison</h2>
+        <canvas id="barChart"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h2 style="text-align:center;">Line Chart Trend</h2>
+        <canvas id="lineChart"></canvas>
+      </div>
+
+      <script>
+        const labels = ["ROC AUC", "Precision", "Recall", "F1"];
+        const baseline = [0.68, 0.61, 0.624, 0.607];
+        const withEmotion = [0.678, 0.615, 0.629, 0.612];
+        const xgbEmotion = [0.671, 0.618, 0.625, 0.62];
+
+        // Bar chart
+        new Chart(document.getElementById("barChart"), {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              { label: "BaseCase", data: baseline, backgroundColor: "rgba(54, 162, 235, 0.6)" },
+              { label: "With Emotion", data: withEmotion, backgroundColor: "rgba(255, 99, 132, 0.6)" },
+              { label: "XGBoost+Emotion", data: xgbEmotion, backgroundColor: "rgba(255, 206, 86, 0.6)" }
+            ]
+          },
+          options: { 
+            responsive: true, 
+            scales: { 
+              y: { beginAtZero: true, max: 1 } 
+            } 
+          }
+        });
+
+        // Line chart with dynamic y-axis range
+        new Chart(document.getElementById("lineChart"), {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              { label: "BaseCase", data: baseline, borderColor: "rgba(54, 162, 235, 1)", fill: false, tension: 0.1 },
+              { label: "With Emotion", data: withEmotion, borderColor: "rgba(255, 99, 132, 1)", fill: false, tension: 0.1 },
+              { label: "XGBoost+Emotion", data: xgbEmotion, borderColor: "rgba(255, 206, 86, 1)", fill: false, tension: 0.1 }
+            ]
+          },
+          options: { 
+            responsive: true, 
+            scales: { 
+              y: {
+                min: 0.597,
+                max: 0.69
+              }
+            } 
+          }
+        });
+      </script>
+
+    </body>
+    </html>
+    
